@@ -58,7 +58,7 @@ const BoardSection = () => {
                   <img 
                     src={convertDriveUrlToDirectLink(member.image)}
                     alt={member.name}
-                    className="w-20 h-20 mx-auto mb-4 rounded-full object-cover"
+                    className="w-20 h-20 mx-auto mb-4 rounded-full object-contain bg-secondary/20"
                   />
                 ) : (
                   <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-secondary flex items-center justify-center group-hover:shadow-glow transition-shadow duration-300">

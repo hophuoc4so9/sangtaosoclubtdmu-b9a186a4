@@ -57,7 +57,7 @@ const EventsSection = () => {
                   <img 
                     src={convertDriveUrlToDirectLink(event.image)} 
                     alt={event.title}
-                    className="w-full h-40 object-cover rounded-lg mb-4"
+                    className="w-full h-auto object-contain rounded-lg mb-4 bg-secondary/20"
                   />
                 )}
                 <h4 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
