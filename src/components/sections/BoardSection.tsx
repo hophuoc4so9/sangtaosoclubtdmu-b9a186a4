@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { User } from "lucide-react";
 import { getBoardMembers, BoardMember } from "@/lib/googleSheets";
+import { convertDriveUrlToDirectLink } from "@/lib/utils";
 
 const BoardSection = () => {
   const [members, setMembers] = useState<BoardMember[]>([]);
@@ -55,7 +56,7 @@ const BoardSection = () => {
                 {/* Avatar */}
                 {member.image ? (
                   <img 
-                    src={member.image}
+                    src={convertDriveUrlToDirectLink(member.image)}
                     alt={member.name}
                     className="w-20 h-20 mx-auto mb-4 rounded-full object-cover"
                   />

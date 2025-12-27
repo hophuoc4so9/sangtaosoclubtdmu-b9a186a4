@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Calendar, MapPin } from "lucide-react";
 import { getEvents, Event } from "@/lib/googleSheets";
+import { convertDriveUrlToDirectLink } from "@/lib/utils";
 
 const EventsSection = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -54,7 +55,7 @@ const EventsSection = () => {
               >
                 {event.image && (
                   <img 
-                    src={event.image} 
+                    src={convertDriveUrlToDirectLink(event.image)} 
                     alt={event.title}
                     className="w-full h-40 object-cover rounded-lg mb-4"
                   />
