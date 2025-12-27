@@ -1,21 +1,26 @@
+import { useEffect, useState } from "react";
 import { User } from "lucide-react";
-
-interface BoardMember {
-  name: string;
-  role: string;
-  class: string;
-}
-
-const boardMembers: BoardMember[] = [
-  { name: "Nguyễn Văn An", role: "Chủ nhiệm CLB", class: "K20 CNTT" },
-  { name: "Trần Thị Bình", role: "Phó Chủ nhiệm", class: "K20 CNTT" },
-  { name: "Lê Hoàng Cường", role: "Trưởng ban Kỹ thuật", class: "K21 CNTT" },
-  { name: "Phạm Minh Đức", role: "Trưởng ban Sự kiện", class: "K21 CNTT" },
-  { name: "Hoàng Thu Hà", role: "Trưởng ban Truyền thông", class: "K21 CNTT" },
-  { name: "Võ Quang Huy", role: "Thủ quỹ", class: "K22 CNTT" },
-];
+import { getBoardMembers, BoardMember } from "@/lib/googleSheets";
 
 const BoardSection = () => {
+  const [members, setMembers] = useState<BoardMember[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const data = await getBoardMembers();
+        setMembers(data);
+      } catch (error) {
+        console.error("Error loading board members:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+
   return (
     <section className="py-24 relative" id="board">
       <div className="container px-4">
@@ -33,38 +38,49 @@ const BoardSection = () => {
         </div>
 
         {/* Board members grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {boardMembers.map((member, index) => (
-            <div
-              key={member.name}
-              className="group relative p-6 rounded-2xl glass hover:border-primary/50 transition-all duration-300 opacity-0 animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {/* Avatar placeholder */}
-              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-secondary flex items-center justify-center group-hover:shadow-glow transition-shadow duration-300">
-                <User className="w-10 h-10 text-primary" />
-              </div>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-64 bg-secondary/20 rounded-lg animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {members.map((member, index) => (
+              <div
+                key={member.id}
+                className="group relative p-6 rounded-2xl glass hover:border-primary/50 transition-all duration-300 opacity-0 animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {/* Avatar */}
+                {member.image ? (
+                  <img 
+                    src={member.image}
+                    alt={member.name}
+                    className="w-20 h-20 mx-auto mb-4 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-secondary flex items-center justify-center group-hover:shadow-glow transition-shadow duration-300">
+                    <User className="w-10 h-10 text-primary" />
+                  </div>
+                )}
 
-              {/* Member info */}
-              <div className="text-center">
-                <h3 className="text-xl font-semibold mb-1 group-hover:text-primary transition-colors">
-                  {member.name}
-                </h3>
-                <p className="text-primary text-sm font-medium mb-2">
-                  {member.role}
-                </p>
-                <p className="text-muted-foreground text-sm font-mono">
-                  {member.class}
-                </p>
+                {/* Member info */}
+                <div className="text-center">
+                  <h3 className="text-xl font-semibold mb-1 group-hover:text-primary transition-colors">
+                    {member.name}
+                  </h3>
+                  <p className="text-primary text-sm font-medium mb-2">
+                    {member.position}
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    {member.bio}
+                  </p>
+                </div>
               </div>
-
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden rounded-tr-2xl">
-                <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-primary opacity-10 transform rotate-45 translate-x-4 -translate-y-4" />
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

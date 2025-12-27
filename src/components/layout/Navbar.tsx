@@ -20,7 +20,7 @@ const Navbar = () => {
               <Code2 className="w-5 h-5 text-primary" />
             </div>
             <span className="font-bold text-lg">
-              <span className="text-gradient">CodeHub</span>
+              <span className="text-gradient">SÁNG TẠO SỐ CLUB TDMU</span>
             </span>
           </a>
 

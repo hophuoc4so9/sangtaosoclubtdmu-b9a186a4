@@ -11,7 +11,7 @@ const Footer = () => {
               <Code2 className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <span className="font-bold text-gradient">CodeHub</span>
+              <span className="font-bold text-gradient">SÁNG TẠO SỐ CLUB TDMU</span>
               <p className="text-xs text-muted-foreground">
                 CLB Lập trình • Đại học Bách khoa
               </p>
@@ -35,7 +35,7 @@ const Footer = () => {
               <Facebook className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
             </a>
             <a
-              href="mailto:codehub@university.edu.vn"
+              href="mailto:SÁNG TẠO SỐ CLUB TDMU@university.edu.vn"
               className="p-2 rounded-lg glass hover:border-primary/50 transition-colors"
               aria-label="Email"
             >
@@ -47,7 +47,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="mt-8 pt-6 border-t border-border text-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 CodeHub. Được phát triển với{" "}
+            © 2024 SÁNG TẠO SỐ CLUB TDMU. Được phát triển với{" "}
             <span className="text-primary">❤</span> bởi các thành viên CLB.
           </p>
         </div>

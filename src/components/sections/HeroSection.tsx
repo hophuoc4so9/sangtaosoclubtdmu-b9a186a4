@@ -1,8 +1,33 @@
+import { useEffect, useState } from "react";
 import { Code2, Terminal, Cpu } from "lucide-react";
+import { getHeroes, HeroData } from "@/lib/googleSheets";
 
 const HeroSection = () => {
+  const [hero, setHero] = useState<HeroData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHero = async () => {
+      try {
+        const heroes = await getHeroes();
+        if (heroes.length > 0) {
+          setHero(heroes[0]);
+        }
+      } catch (error) {
+        console.error("Error loading hero data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHero();
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
+    <section 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero"
+      style={hero?.backgroundimage ? { backgroundImage: `url(${hero.backgroundimage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+    >
       {/* Background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float" />
@@ -28,42 +53,47 @@ const HeroSection = () => {
           </div>
 
           {/* Club name */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 opacity-0 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-            <span className="text-gradient">CodeHub</span>
-            <span className="block text-foreground mt-2 text-3xl md:text-4xl font-medium">
-              Câu lạc bộ Lập trình
-            </span>
-          </h1>
+          {loading ? (
+            <div className="h-32 bg-secondary/20 rounded-lg animate-pulse" />
+          ) : (
+            <>
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 opacity-0 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+                <span className="text-gradient">{hero?.title || "SÁNG TẠO SỐ CLUB TDMU"}</span>
+                <span className="block text-foreground mt-2 text-3xl md:text-4xl font-medium">
+                  {hero?.subtitle || "Câu lạc bộ Lập trình"}
+                </span>
+              </h1>
 
-          {/* Description */}
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed opacity-0 animate-fade-in" style={{ animationDelay: "0.6s" }}>
-            Nơi hội tụ những đam mê công nghệ, nơi biến ý tưởng thành hiện thực. 
-            Chúng tôi học hỏi, chia sẻ và cùng nhau phát triển trong thế giới lập trình.
-          </p>
+              {/* Description */}
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed opacity-0 animate-fade-in" style={{ animationDelay: "0.6s" }}>
+                {hero?.description || "Nơi hội tụ những đam mê công nghệ, nơi biến ý tưởng thành hiện thực. Chúng tôi học hỏi, chia sẻ và cùng nhau phát triển trong thế giới lập trình."}
+              </p>
 
-          {/* University info */}
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass opacity-0 animate-fade-in" style={{ animationDelay: "0.8s" }}>
-            <div className="w-2 h-2 rounded-full bg-primary animate-pulse-glow" />
-            <span className="text-sm md:text-base text-muted-foreground">
-              Khoa Công nghệ Thông tin • Đại học Bách khoa
-            </span>
-          </div>
+              {/* University info */}
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass opacity-0 animate-fade-in" style={{ animationDelay: "0.8s" }}>
+                <div className="w-2 h-2 rounded-full bg-primary animate-pulse-glow" />
+                <span className="text-sm md:text-base text-muted-foreground">
+                  {hero?.universityinfo || "Khoa Công nghệ Thông tin • Đại học Bách khoa"}
+                </span>
+              </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 mt-16 max-w-lg mx-auto opacity-0 animate-fade-in" style={{ animationDelay: "1s" }}>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-gradient">50+</div>
-              <div className="text-sm text-muted-foreground mt-1">Thành viên</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-gradient">20+</div>
-              <div className="text-sm text-muted-foreground mt-1">Sự kiện</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-gradient">10+</div>
-              <div className="text-sm text-muted-foreground mt-1">Giải thưởng</div>
-            </div>
-          </div>
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-8 mt-16 max-w-lg mx-auto opacity-0 animate-fade-in" style={{ animationDelay: "1s" }}>
+                <div className="text-center">
+                  <div className="text-3xl md:text-4xl font-bold text-gradient">{hero?.membercount || "50+"}</div>
+                  <div className="text-sm text-muted-foreground mt-1">Thành viên</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl md:text-4xl font-bold text-gradient">{hero?.eventcount || "20+"}</div>
+                  <div className="text-sm text-muted-foreground mt-1">Sự kiện</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl md:text-4xl font-bold text-gradient">{hero?.awardcount || "10+"}</div>
+                  <div className="text-sm text-muted-foreground mt-1">Giải thưởng</div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
