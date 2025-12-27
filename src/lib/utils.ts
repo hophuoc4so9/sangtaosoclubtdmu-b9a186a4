@@ -17,14 +17,16 @@ export function convertDriveUrlToDirectLink(url: string): string {
   const drivePatterns = [
     /drive\.google\.com\/file\/d\/([^/]+)/,
     /drive\.google\.com\/open\?id=([^&]+)/,
+    /drive\.google\.com\/uc\?export=view&id=([^&]+)/,
+    /drive\.google\.com\/uc\?id=([^&]+)/,
   ];
 
   for (const pattern of drivePatterns) {
     const match = url.match(pattern);
     if (match && match[1]) {
       const fileId = match[1];
-      // Trả về direct link format
-      return `https://drive.google.com/uc?export=view&id=${fileId}`;
+      // Dùng lh3.googleusercontent.com format - tốt hơn cho embedding
+      return `https://lh3.googleusercontent.com/d/${fileId}`;
     }
   }
 
