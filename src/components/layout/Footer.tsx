@@ -13,7 +13,7 @@ const Footer = () => {
             <div>
               <span className="font-bold text-gradient">SÁNG TẠO SỐ CLUB TDMU</span>
               <p className="text-xs text-muted-foreground">
-                CLB Lập trình • Đại học Bách khoa
+                CLB Lập trình • Đại học Thủ Dầu Một
               </p>
             </div>
           </div>

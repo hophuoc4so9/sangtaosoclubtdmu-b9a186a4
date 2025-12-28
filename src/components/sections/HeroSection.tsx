@@ -73,7 +73,7 @@ const HeroSection = () => {
               <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass opacity-0 animate-fade-in" style={{ animationDelay: "0.8s" }}>
                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse-glow" />
                 <span className="text-sm md:text-base text-muted-foreground">
-                  {hero?.universityinfo || "Khoa Công nghệ Thông tin • Đại học Bách khoa"}
+                  {hero?.universityinfo || "Khoa Công nghệ Thông tin • Đại học Thủ Dầu Một"}
                 </span>
               </div>
 
